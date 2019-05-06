@@ -1,0 +1,55 @@
+---
+title: "Conference Events"
+author: "Jungeun Choi"
+date: "5/6/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(ggplot2)
+library(plotly)
+conf_events <- read.csv("data/events.csv", stringsAsFactors = F)
+```
+
+## Building a Conference Events Graph
+
+In this text, I explore making a graph about things that happened to me at a conference. Those things include:
+
+```{r cars, echo = FALSE}
+kable(conf_events)
+```
+
+## Starting to Make Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo = FALSE, warning = FALSE}
+scale_x <- scale_x_continuous(
+  name = "",
+  limits = c(0, 1),
+  breaks = .5,
+  labels = "Truly Excruciating",
+  sec.axis = dup_axis(labels = "Genuinely Awesome")
+)
+
+scale_y <- scale_y_continuous(
+  name = "",
+  limits = c(0, 1),
+  breaks = 0.5,
+  labels = "Industry",
+  sec.axis = dup_axis(labels = "Academic")
+)
+
+basic_chart <- ggplot(data = conf_events)
+
+final_chart <- basic_chart +
+  geom_point(mapping = aes(x = category, y = scenario, label = label)) +
+  geom_vline(xintercept = .5) +
+  geom_hline(yintercept = .5) +
+  scale_y +
+  scale_x
+
+ggplotly(final_chart)
+```
